@@ -23,8 +23,8 @@ public class Training {
     private String category;
     @NotNull
     private double Xp;
-    @OneToMany
-    private List<Atividade> atividades;
+
+    private List<String> atividades;
     private String description;
     private int duration;
 
@@ -59,15 +59,7 @@ public class Training {
     public void setXp(double xp) {
         Xp = xp;
     }
-
-    public List<Atividade> getAtividades() {
-        return atividades;
-    }
-
-    public void setAtividades(List<Atividade> atividades) {
-        this.atividades = atividades;
-    }
-
+    
     public String getDescription() {
         return description;
     }
