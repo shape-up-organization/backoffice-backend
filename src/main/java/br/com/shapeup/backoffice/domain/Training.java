@@ -4,14 +4,11 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
-import jakarta.persistence.OneToMany;
-import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 
 import java.sql.Time;
 import java.time.LocalDateTime;
 import java.util.List;
-
 @Entity
 public class Training {
     @Id
@@ -27,6 +24,19 @@ public class Training {
     private List<String> atividades;
     private String description;
     private int duration;
+
+    public Training(Long id, String name, String category, double xp, List<String> atividades, String description, int duration) {
+        this.id = id;
+        this.name = name;
+        this.category = category;
+        Xp = xp;
+        this.atividades = atividades;
+        this.description = description;
+        this.duration = duration;
+    }
+
+    public Training() {
+    }
 
     public Long getId() {
         return id;
