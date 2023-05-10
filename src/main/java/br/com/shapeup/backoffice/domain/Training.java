@@ -7,12 +7,16 @@ import jakarta.persistence.Id;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
-
-import java.sql.Time;
-import java.time.LocalDateTime;
-import java.util.List;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 @Entity
+@Getter
+@Setter
+@AllArgsConstructor
+@NoArgsConstructor
 public class Training {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -24,68 +28,16 @@ public class Training {
     @NotBlank
     private String category;
     @NotNull
-    private double Xp;
+    private double xp;
     @Size(min = 0, max = 500)
     private String description;
     private int duration;
 
-    public Training(Long id, String name, String category, double xp, String description, int duration) {
-        this.id = id;
+    public Training(String name, String category, double xp, String description, int duration) {
         this.name = name;
         this.category = category;
-        this.Xp = xp;
+        this.xp = xp;
         this.description = description;
-        this.duration = duration;
-    }
-
-    public Training() {
-    }
-
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public String getCategory() {
-        return category;
-    }
-
-    public void setCategory(String category) {
-        this.category = category;
-    }
-
-    public double getXp() {
-        return Xp;
-    }
-
-    public void setXp(double xp) {
-        Xp = xp;
-    }
-
-    public String getDescription() {
-        return description;
-    }
-
-    public void setDescription(String description) {
-        this.description = description;
-    }
-
-    public int getDuration() {
-        return duration;
-    }
-
-    public void setDuration(int duration) {
         this.duration = duration;
     }
 }
