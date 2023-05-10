@@ -13,6 +13,7 @@ import lombok.Setter;
 @AllArgsConstructor
 @NoArgsConstructor
 public class TrainingRegistredResponse {
+    private Long id;
     private String name;
     private String category;
     private double xp;

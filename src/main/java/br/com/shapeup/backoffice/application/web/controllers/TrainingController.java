@@ -45,21 +45,20 @@ public class TrainingController {
     @GetMapping("/{name}")
     public ResponseEntity<List<Training>> findTrainingsByName(@PathVariable String name) {
         List<Training> trainings = trainingService.findByName(name);
-        return ResponseEntity.ok(trainings);
+        return ResponseEntity.status(HttpStatus.OK).body(trainings);
     }
 
-    @GetMapping("/category")
-    public ResponseEntity<List<Training>> findTrainingsByCategoryAndDuration(@RequestParam String category, @RequestParam int duration) {
+    @GetMapping("/category/{category}/{duration}")
+    public ResponseEntity<List<Training>> findTrainingsByCategoryAndDuration(@PathVariable String category, @PathVariable int duration) {
         List<Training> trainings = trainingService.findByCategoryAndDuration(category, duration);
-        return ResponseEntity.ok(trainings);
+        return ResponseEntity.status(HttpStatus.OK).body(trainings);
     }
 
-    // TODO Adicionar os metodos abaixo na classe TrainingService
 
-    @GetMapping("/xp")
-    public ResponseEntity<List<Training>> findTrainingsByXpGreaterThan(@RequestParam double xp) {
+    @GetMapping("/xp/{xp}")
+    public ResponseEntity<List<Training>> findTrainingsByXpGreaterThan(@PathVariable double xp) {
         List<Training> trainings = trainingService.findByXpGreaterThan(xp);
-        return ResponseEntity.ok(trainings);
+        return ResponseEntity.status(HttpStatus.OK).body(trainings);
     }
 
     @DeleteMapping("/{id}")

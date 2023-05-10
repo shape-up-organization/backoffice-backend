@@ -8,7 +8,7 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface TrainingRepository extends JpaRepository<Training, Long> {
-    void deleteTrainingById(Long id);
+
     List<Training> findByName(String name);
     List<Training> findByCategoryAndDuration(String category, int duration);
 

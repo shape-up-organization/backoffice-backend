@@ -5,7 +5,10 @@ import br.com.shapeup.backoffice.application.web.requests.TrainingRegisterReques
 import br.com.shapeup.backoffice.application.web.responses.TrainingRegistredResponse;
 import br.com.shapeup.backoffice.domain.Training;
 import br.com.shapeup.backoffice.repository.TrainingRepository;
+
 import java.util.List;
+import java.util.Optional;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -37,5 +40,18 @@ public class TrainingService {
 
     public List<Training> findByCategoryAndDuration(String category, int duration) {
         return trainingRepository.findByCategoryAndDuration(category, duration);
+    }
+
+    public Optional<Training> findById(Long id) {
+        return trainingRepository.findById(id);
+    }
+
+    public void deleteTrainingById(Long id) {
+        trainingRepository.deleteById(id);
+    }
+
+    public List<Training> findByXpGreaterThan(double xp) {
+        List<Training> trainings = trainingRepository.findByXpGreaterThan(xp);
+        return trainings;
     }
 }
