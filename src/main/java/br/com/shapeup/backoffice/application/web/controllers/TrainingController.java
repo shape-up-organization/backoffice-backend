@@ -1,5 +1,8 @@
 package br.com.shapeup.backoffice.application.web.controllers;
 
+import br.com.shapeup.backoffice.application.services.TrainingService;
+import br.com.shapeup.backoffice.application.web.requests.TrainingRegisterRequest;
+import br.com.shapeup.backoffice.application.web.responses.TrainingRegistredResponse;
 import br.com.shapeup.backoffice.domain.Training;
 import br.com.shapeup.backoffice.repository.TrainingRepository;
 import jakarta.validation.Valid;
@@ -22,46 +25,48 @@ import java.util.Optional;
 @RestController
 @RequestMapping("/trainings")
 public class TrainingController {
+
     @Autowired
-    TrainingRepository trainingRepository;
+    TrainingService trainingService;
 
     @PostMapping
-    public ResponseEntity<Void> createTraining(@Valid @RequestBody Training training) {
-        Training savedTrainings = trainingRepository.save(training);
+    public ResponseEntity<TrainingRegistredResponse> createTraining(@Valid @RequestBody TrainingRegisterRequest trainingRegisterRequest) {
+        TrainingRegistredResponse savedTrainings = trainingService.saveTraining(trainingRegisterRequest);
 
-
-        return ResponseEntity.status(HttpStatus.CREATED).build();
+        return ResponseEntity.status(HttpStatus.CREATED).body(savedTrainings);
     }
 
     @GetMapping
     public ResponseEntity<List<Training>> ListTraining() {
-        List<Training> trainings = trainingRepository.findAll();
+        List<Training> trainings = trainingService.findAll();
         return ResponseEntity.status(HttpStatus.OK).body(trainings);
     }
 
     @GetMapping("/{name}")
     public ResponseEntity<List<Training>> findTrainingsByName(@PathVariable String name) {
-        List<Training> trainings = trainingRepository.findByName(name);
+        List<Training> trainings = trainingService.findByName(name);
         return ResponseEntity.ok(trainings);
     }
 
     @GetMapping("/category")
     public ResponseEntity<List<Training>> findTrainingsByCategoryAndDuration(@RequestParam String category, @RequestParam int duration) {
-        List<Training> trainings = trainingRepository.findByCategoryAndDuration(category, duration);
+        List<Training> trainings = trainingService.findByCategoryAndDuration(category, duration);
         return ResponseEntity.ok(trainings);
     }
 
+    // TODO Adicionar os metodos abaixo na classe TrainingService
+
     @GetMapping("/xp")
     public ResponseEntity<List<Training>> findTrainingsByXpGreaterThan(@RequestParam double xp) {
-        List<Training> trainings = trainingRepository.findByXpGreaterThan(xp);
+        List<Training> trainings = trainingService.findByXpGreaterThan(xp);
         return ResponseEntity.ok(trainings);
     }
 
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> deleteTraining(@PathVariable Long id) {
-        Optional<Training> training = trainingRepository.findById(id);
+        Optional<Training> training = trainingService.findById(id);
         if (training.isPresent()) {
-            trainingRepository.deleteTrainingById(id);
+            trainingService.deleteTrainingById(id);
             return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
 
         } else {
