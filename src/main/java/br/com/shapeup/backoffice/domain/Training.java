@@ -4,33 +4,36 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Size;
 
 import java.sql.Time;
 import java.time.LocalDateTime;
 import java.util.List;
+
 @Entity
 public class Training {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     @NotNull
+    @NotBlank
     private String name;
     @NotNull
+    @NotBlank
     private String category;
     @NotNull
     private double Xp;
-
-    private List<String> atividades;
+    @Size(min = 0, max = 500)
     private String description;
     private int duration;
 
-    public Training(Long id, String name, String category, double xp, List<String> atividades, String description, int duration) {
+    public Training(Long id, String name, String category, double xp, String description, int duration) {
         this.id = id;
         this.name = name;
         this.category = category;
-        Xp = xp;
-        this.atividades = atividades;
+        this.Xp = xp;
         this.description = description;
         this.duration = duration;
     }
@@ -69,7 +72,7 @@ public class Training {
     public void setXp(double xp) {
         Xp = xp;
     }
-    
+
     public String getDescription() {
         return description;
     }
