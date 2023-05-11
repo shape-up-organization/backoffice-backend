@@ -8,7 +8,7 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface TrainingRepository extends JpaRepository<Training, Long> {
-
+List<Training> findByCategoryIgnoreCase(String category);
     List<Training> findByName(String name);
     List<Training> findByCategoryAndDuration(String category, int duration);
 

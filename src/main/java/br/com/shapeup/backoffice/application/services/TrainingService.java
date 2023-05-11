@@ -33,6 +33,9 @@ public class TrainingService {
 
         return trainingRepository.findAll();
     }
+    public List<Training>findByCategory(String category){
+        return trainingRepository.findByCategoryIgnoreCase(category);
+    };
 
     public List<Training> findByName(String name) {
         return trainingRepository.findByName(name);

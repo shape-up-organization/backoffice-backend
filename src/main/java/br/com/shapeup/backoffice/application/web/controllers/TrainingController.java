@@ -48,6 +48,16 @@ public class TrainingController {
         return ResponseEntity.status(HttpStatus.OK).body(trainings);
     }
 
+    @GetMapping("/categories/{category}")
+    public ResponseEntity<List<Training>> findTrainingsByCategory(@PathVariable String category){
+        List<Training> trainingsByCategory = trainingService.findByCategory(category);
+        if (!trainingsByCategory.isEmpty()) {
+            return ResponseEntity.status(HttpStatus.OK).body(trainingsByCategory);
+        }
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
+    }
+
+
     @GetMapping("/category/{category}/{duration}")
     public ResponseEntity<List<Training>> findTrainingsByCategoryAndDuration(@PathVariable String category, @PathVariable int duration) {
         List<Training> trainings = trainingService.findByCategoryAndDuration(category, duration);
