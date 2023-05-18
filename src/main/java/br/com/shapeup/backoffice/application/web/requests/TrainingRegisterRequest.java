@@ -20,8 +20,9 @@ public class TrainingRegisterRequest {
     @NotBlank
     private String category;
     @NotNull
-    private double xp;
+    private Long xp;
     @Size(min = 0, max = 500)
     private String description;
     private int duration;
+    private String classification;
 }

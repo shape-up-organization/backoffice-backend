@@ -21,6 +21,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.UUID;
 
 @RestController
 @RequestMapping("/trainings")
@@ -66,13 +67,13 @@ public class TrainingController {
 
 
     @GetMapping("/xp/{xp}")
-    public ResponseEntity<List<Training>> findTrainingsByXpGreaterThan(@PathVariable double xp) {
+    public ResponseEntity<List<Training>> findTrainingsByXpGreaterThan(@PathVariable Long xp) {
         List<Training> trainings = trainingService.findByXpGreaterThan(xp);
         return ResponseEntity.status(HttpStatus.OK).body(trainings);
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<Void> deleteTraining(@PathVariable Long id) {
+    public ResponseEntity<Void> deleteTraining(@PathVariable UUID id) {
         Optional<Training> training = trainingService.findById(id);
         if (training.isPresent()) {
             trainingService.deleteTrainingById(id);
