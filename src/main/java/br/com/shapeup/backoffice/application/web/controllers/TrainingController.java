@@ -5,6 +5,7 @@ import br.com.shapeup.backoffice.application.web.requests.TrainingRegisterReques
 import br.com.shapeup.backoffice.application.web.responses.TrainingRegistredResponse;
 import br.com.shapeup.backoffice.domain.Training;
 import br.com.shapeup.backoffice.repository.TrainingRepository;
+import jakarta.transaction.Transactional;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -14,6 +15,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.Mapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -21,6 +23,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.UUID;
 
 @RestController
 @RequestMapping("/trainings")
@@ -29,6 +32,7 @@ public class TrainingController {
     @Autowired
     TrainingService trainingService;
 
+    @Transactional
     @PostMapping
     public ResponseEntity<TrainingRegistredResponse> createTraining(@Valid @RequestBody TrainingRegisterRequest trainingRegisterRequest) {
         TrainingRegistredResponse savedTrainings = trainingService.saveTraining(trainingRegisterRequest);
@@ -66,13 +70,33 @@ public class TrainingController {
 
 
     @GetMapping("/xp/{xp}")
-    public ResponseEntity<List<Training>> findTrainingsByXpGreaterThan(@PathVariable double xp) {
+    public ResponseEntity<List<Training>> findTrainingsByXpGreaterThan(@PathVariable Long xp) {
         List<Training> trainings = trainingService.findByXpGreaterThan(xp);
         return ResponseEntity.status(HttpStatus.OK).body(trainings);
     }
 
+    @PutMapping("/{id}")
+    public ResponseEntity<Training> updateTraining(@PathVariable UUID id, @RequestBody Training updatedTraining) {
+        Training existingTraining = trainingService.getTrainingById(id);
+        if (existingTraining == null) {
+            return ResponseEntity.notFound().build();
+        }
+
+        existingTraining.setName(updatedTraining.getName());
+        existingTraining.setCategory(updatedTraining.getCategory());
+        existingTraining.setXp(updatedTraining.getXp());
+        existingTraining.setDescription(updatedTraining.getDescription());
+        existingTraining.setDuration(updatedTraining.getDuration());
+        existingTraining.setClassification(updatedTraining.getClassification());
+        existingTraining.setExercises(updatedTraining.getExercises());
+
+        updatedTraining = trainingService.updateTraining(existingTraining);
+
+        return ResponseEntity.ok(updatedTraining);
+    }
+
     @DeleteMapping("/{id}")
-    public ResponseEntity<Void> deleteTraining(@PathVariable Long id) {
+    public ResponseEntity<Void> deleteTraining(@PathVariable UUID id) {
         Optional<Training> training = trainingService.findById(id);
         if (training.isPresent()) {
             trainingService.deleteTrainingById(id);

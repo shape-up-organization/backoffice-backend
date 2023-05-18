@@ -8,6 +8,7 @@ import br.com.shapeup.backoffice.repository.TrainingRepository;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.UUID;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -34,7 +35,7 @@ public class TrainingService {
         return trainingRepository.findAll();
     }
     public List<Training>findByCategory(String category){
-        return trainingRepository.findByCategoryIgnoreCase(category);
+        return trainingRepository.findByCategory(category);
     };
 
     public List<Training> findByName(String name) {
@@ -45,16 +46,25 @@ public class TrainingService {
         return trainingRepository.findByCategoryAndDuration(category, duration);
     }
 
-    public Optional<Training> findById(Long id) {
+    public Optional<Training> findById(UUID id) {
         return trainingRepository.findById(id);
     }
 
-    public void deleteTrainingById(Long id) {
+    public void deleteTrainingById(UUID id) {
         trainingRepository.deleteById(id);
     }
 
-    public List<Training> findByXpGreaterThan(double xp) {
+    public List<Training> findByXpGreaterThan(Long xp) {
         List<Training> trainings = trainingRepository.findByXpGreaterThan(xp);
         return trainings;
+    }
+
+    public Training getTrainingById(UUID id) {
+        Optional<Training> optionalTraining = trainingRepository.findById(id);
+        return optionalTraining.orElse(null);
+    }
+
+    public Training updateTraining(Training training) {
+        return trainingRepository.save(training);
     }
 }
