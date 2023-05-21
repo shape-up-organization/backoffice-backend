@@ -1,4 +1,4 @@
-package br.com.shapeup.backoffice.domain.enuns;
+package br.com.shapeup.backoffice.domain.enums;
 
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
