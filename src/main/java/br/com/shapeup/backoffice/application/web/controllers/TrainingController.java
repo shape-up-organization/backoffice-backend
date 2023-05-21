@@ -38,8 +38,8 @@ public class TrainingController {
     }
 
     @GetMapping
-    public ResponseEntity<List<Training>> ListTraining() {
-        List<Training> trainings = trainingService.findAll();
+    public ResponseEntity<List<TrainingRegistredResponse>> ListTraining() {
+        List<TrainingRegistredResponse> trainings = trainingService.findAll();
         return ResponseEntity.status(HttpStatus.OK).body(trainings);
     }
 

@@ -4,6 +4,7 @@ import br.com.shapeup.backoffice.application.web.requests.TrainingRegisterReques
 import br.com.shapeup.backoffice.application.web.responses.TrainingRegistredResponse;
 import br.com.shapeup.backoffice.domain.Training;
 import br.com.shapeup.backoffice.domain.enums.CategoryEnum;
+import java.util.List;
 import org.springframework.stereotype.Component;
 
 @Component
@@ -29,8 +30,12 @@ public class TrainingMapper {
                 training.getCategory().name(),
                 training.getXp(),
                 training.getDescription(),
-                training.getDuration()
+                training.getDuration(),
+                training.getExercises().stream().map(exercise -> exercise.getExercise()).toList()
         );
     }
 
+    public List<TrainingRegistredResponse> trainingsToTrainingRegistredResponse(List<Training> trainings) {
+        return trainings.stream().map(training -> trainingToTrainingRegistredResponse(training)).toList();
+    }
 }

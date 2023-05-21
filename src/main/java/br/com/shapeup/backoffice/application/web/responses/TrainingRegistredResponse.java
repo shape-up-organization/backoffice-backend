@@ -1,5 +1,6 @@
 package br.com.shapeup.backoffice.application.web.responses;
 
+import java.util.List;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -16,4 +17,5 @@ public class TrainingRegistredResponse {
     private Long xp;
     private String description;
     private Integer duration;
+    private List<String> exercises;
 }

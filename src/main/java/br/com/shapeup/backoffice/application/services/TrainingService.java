@@ -7,6 +7,7 @@ import br.com.shapeup.backoffice.application.web.requests.UpdateTrainingRequest;
 import br.com.shapeup.backoffice.application.web.responses.TrainingRegistredResponse;
 import br.com.shapeup.backoffice.domain.Exercise;
 import br.com.shapeup.backoffice.domain.Training;
+import br.com.shapeup.backoffice.repository.ExerciseRepository;
 import br.com.shapeup.backoffice.repository.TrainingRepository;
 import br.com.shapeup.backoffice.utils.ObjectUtils;
 import java.util.ArrayList;
@@ -22,24 +23,26 @@ public class TrainingService {
 
     private final TrainingRepository trainingRepository;
     private final TrainingMapper trainingMapper;
+    private final ExerciseRepository exerciseRepository;
 
     public TrainingRegistredResponse saveTraining(TrainingRegisterRequest trainingRegisterRequest) {
 
         List<Exercise> exercises = new ArrayList<>();
 
-        addExercisesToTrainingRegistration(trainingRegisterRequest, exercises);
-
         Training training = trainingMapper.traningRegisterToTraining(trainingRegisterRequest);
+        addExercisesToTrainingRegistration(trainingRegisterRequest, training, exercises);
 
         training.setExercises(exercises);
         trainingRepository.save(training);
+        exerciseRepository.saveAll(exercises);
 
         return trainingMapper.trainingToTrainingRegistredResponse(training);
     }
 
-    public List<Training> findAll() {
+    public List<TrainingRegistredResponse> findAll() {
+        List<Training> trainings = trainingRepository.findAll();
 
-        return trainingRepository.findAll();
+        return trainingMapper.trainingsToTrainingRegistredResponse(trainings);
     }
 
     public List<Training> findByCategory(String category) {
@@ -84,11 +87,12 @@ public class TrainingService {
         return trainingMapper.trainingToTrainingRegistredResponse(training);
     }
 
-    private static void addExercisesToTrainingRegistration(TrainingRegisterRequest trainingRegisterRequest, List<Exercise> exercises) {
+    private static void addExercisesToTrainingRegistration(TrainingRegisterRequest trainingRegisterRequest, Training training, List<Exercise> exercises) {
         for(String exercise : trainingRegisterRequest.getExercises()) {
             var exerciseModel = Exercise.builder()
                     .id(UUID.randomUUID())
                     .exercise(exercise)
+                    .training(training)
                     .build();
 
             exercises.add(exerciseModel);
