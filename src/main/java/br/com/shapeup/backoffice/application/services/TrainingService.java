@@ -5,9 +5,11 @@ import br.com.shapeup.backoffice.application.mapper.TrainingMapper;
 import br.com.shapeup.backoffice.application.web.requests.TrainingRegisterRequest;
 import br.com.shapeup.backoffice.application.web.requests.UpdateTrainingRequest;
 import br.com.shapeup.backoffice.application.web.responses.TrainingRegistredResponse;
+import br.com.shapeup.backoffice.domain.Exercise;
 import br.com.shapeup.backoffice.domain.Training;
 import br.com.shapeup.backoffice.repository.TrainingRepository;
 import br.com.shapeup.backoffice.utils.ObjectUtils;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
@@ -23,7 +25,13 @@ public class TrainingService {
 
     public TrainingRegistredResponse saveTraining(TrainingRegisterRequest trainingRegisterRequest) {
 
+        List<Exercise> exercises = new ArrayList<>();
+
+        addExercisesToTrainingRegistration(trainingRegisterRequest, exercises);
+
         Training training = trainingMapper.traningRegisterToTraining(trainingRegisterRequest);
+
+        training.setExercises(exercises);
         trainingRepository.save(training);
 
         return trainingMapper.trainingToTrainingRegistredResponse(training);
@@ -74,5 +82,16 @@ public class TrainingService {
         trainingRepository.save(training);
 
         return trainingMapper.trainingToTrainingRegistredResponse(training);
+    }
+
+    private static void addExercisesToTrainingRegistration(TrainingRegisterRequest trainingRegisterRequest, List<Exercise> exercises) {
+        for(String exercise : trainingRegisterRequest.getExercises()) {
+            var exerciseModel = Exercise.builder()
+                    .id(UUID.randomUUID())
+                    .exercise(exercise)
+                    .build();
+
+            exercises.add(exerciseModel);
+        }
     }
 }
