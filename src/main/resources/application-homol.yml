@@ -1,5 +1,5 @@
 server:
-  port: 8080
+  port: 7000
 
 spring:
   main:
@@ -7,15 +7,19 @@ spring:
   mvc:
     pathmatch:
       matching-strategy: ant_path_matcher
+  config:
+    additional-location: file:./variables-local.properties
+    activate:
+      on-profile: homol
   datasource:
     driver-class-name: org.postgresql.Driver
-    url: jdbc:postgresql://localhost:5434/shapeup-backoffice
-    username: dev
-    password: dev
+    url: ${POSTGRES_URL}
+    username: ${POSTGRES_USER}
+    password: ${POSTGRES_PASSWORD}
   jpa:
     hibernate:
-      ddl-auto: create-drop
-    show-sql: true
+      ddl-auto: none
+    show-sql: false
     database: postgresql
     database-platform: org.hibernate.dialect.PostgreSQLDialect
     open-in-view: false
