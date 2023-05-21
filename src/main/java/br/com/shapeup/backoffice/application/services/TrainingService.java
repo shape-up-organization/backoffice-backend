@@ -5,13 +5,12 @@ import br.com.shapeup.backoffice.application.web.requests.TrainingRegisterReques
 import br.com.shapeup.backoffice.application.web.responses.TrainingRegistredResponse;
 import br.com.shapeup.backoffice.domain.Training;
 import br.com.shapeup.backoffice.repository.TrainingRepository;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
-
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
 
 @Service
 public class TrainingService {

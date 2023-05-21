@@ -1,11 +1,9 @@
 package br.com.shapeup.backoffice.application.web.controllers;
+
 import br.com.shapeup.backoffice.application.services.ExerciseService;
 import br.com.shapeup.backoffice.application.web.requests.ExerciseRegisterRequest;
-import br.com.shapeup.backoffice.domain.Exercise;
-import br.com.shapeup.backoffice.repository.ExerciseRepository;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
-import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
