@@ -2,10 +2,14 @@ package br.com.shapeup.backoffice.application.web.controllers;
 
 import br.com.shapeup.backoffice.application.services.TrainingService;
 import br.com.shapeup.backoffice.application.web.requests.TrainingRegisterRequest;
+import br.com.shapeup.backoffice.application.web.requests.UpdateTrainingRequest;
 import br.com.shapeup.backoffice.application.web.responses.TrainingRegistredResponse;
 import br.com.shapeup.backoffice.domain.Training;
 import jakarta.transaction.Transactional;
 import jakarta.validation.Valid;
+import java.util.List;
+import java.util.Optional;
+import java.util.UUID;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -17,10 +21,6 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-
-import java.util.List;
-import java.util.Optional;
-import java.util.UUID;
 
 @RestController
 @RequestMapping("/trainings")
@@ -72,24 +72,12 @@ public class TrainingController {
         return ResponseEntity.status(HttpStatus.OK).body(trainings);
     }
 
-    @PutMapping("/{id}")
-    public ResponseEntity<Training> updateTraining(@PathVariable UUID id, @RequestBody Training updatedTraining) {
-        Training existingTraining = trainingService.getTrainingById(id);
-        if (existingTraining == null) {
-            return ResponseEntity.notFound().build();
-        }
+    @PutMapping
+    public ResponseEntity<TrainingRegistredResponse> updateTraining(@RequestBody UpdateTrainingRequest updateTrainingRequest) {
 
-        existingTraining.setName(updatedTraining.getName());
-        existingTraining.setCategory(updatedTraining.getCategory());
-        existingTraining.setXp(updatedTraining.getXp());
-        existingTraining.setDescription(updatedTraining.getDescription());
-        existingTraining.setDuration(updatedTraining.getDuration());
-        existingTraining.setClassification(updatedTraining.getClassification());
-        existingTraining.setExercises(updatedTraining.getExercises());
+        var trainingRegistredResponse = trainingService.updateTraining(updateTrainingRequest);
 
-        updatedTraining = trainingService.updateTraining(existingTraining);
-
-        return ResponseEntity.ok(updatedTraining);
+        return ResponseEntity.ok(trainingRegistredResponse);
     }
 
     @DeleteMapping("/{id}")

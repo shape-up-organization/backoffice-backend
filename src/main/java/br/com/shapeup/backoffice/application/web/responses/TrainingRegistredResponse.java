@@ -10,10 +10,10 @@ import lombok.Setter;
 @AllArgsConstructor
 @NoArgsConstructor
 public class TrainingRegistredResponse {
-
+    private String id;
     private String name;
     private String category;
-    private double xp;
+    private Long xp;
     private String description;
-    private int duration;
+    private Integer duration;
 }

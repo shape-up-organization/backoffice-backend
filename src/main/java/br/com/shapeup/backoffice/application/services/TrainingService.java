@@ -1,10 +1,13 @@
 package br.com.shapeup.backoffice.application.services;
 
+import br.com.shapeup.backoffice.application.exceptions.NotFoundException;
 import br.com.shapeup.backoffice.application.mapper.TrainingMapper;
 import br.com.shapeup.backoffice.application.web.requests.TrainingRegisterRequest;
+import br.com.shapeup.backoffice.application.web.requests.UpdateTrainingRequest;
 import br.com.shapeup.backoffice.application.web.responses.TrainingRegistredResponse;
 import br.com.shapeup.backoffice.domain.Training;
 import br.com.shapeup.backoffice.repository.TrainingRepository;
+import br.com.shapeup.backoffice.utils.ObjectUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -63,7 +66,14 @@ public class TrainingService {
         return optionalTraining.orElse(null);
     }
 
-    public Training updateTraining(Training training) {
-        return trainingRepository.save(training);
+    public TrainingRegistredResponse updateTraining(UpdateTrainingRequest updateTrainingRequest) {
+
+        Training training = trainingRepository.findById(UUID.fromString(updateTrainingRequest.id()))
+                .orElseThrow(() -> new NotFoundException("Training not found"));
+
+        ObjectUtils.copyNonNullProperties(updateTrainingRequest, training);
+        trainingRepository.save(training);
+
+        return trainingMapper.trainingToTrainingRegistredResponse(training);
     }
 }

@@ -3,7 +3,7 @@ package br.com.shapeup.backoffice.application.mapper;
 import br.com.shapeup.backoffice.application.web.requests.TrainingRegisterRequest;
 import br.com.shapeup.backoffice.application.web.responses.TrainingRegistredResponse;
 import br.com.shapeup.backoffice.domain.Training;
-import br.com.shapeup.backoffice.domain.enuns.CategoryEnum;
+import br.com.shapeup.backoffice.domain.enums.CategoryEnum;
 import org.springframework.stereotype.Component;
 
 @Component
@@ -24,7 +24,7 @@ public class TrainingMapper {
 
     public TrainingRegistredResponse trainingToTrainingRegistredResponse(Training training) {
         return new TrainingRegistredResponse(
-
+                training.getId().toString(),
                 training.getName(),
                 training.getCategory().name(),
                 training.getXp(),
