@@ -1,6 +1,6 @@
 package br.com.shapeup.backoffice.domain;
 
-import br.com.shapeup.backoffice.domain.enuns.CategoryEnum;
+import br.com.shapeup.backoffice.domain.enums.CategoryEnum;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
@@ -47,7 +47,7 @@ public class Training {
 
     @Size(min = 0, max = 500)
     private String description;
-    private int duration;
+    private Integer duration;
 
     private String classification;
 
