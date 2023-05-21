@@ -8,21 +8,18 @@ import br.com.shapeup.backoffice.application.web.responses.TrainingRegistredResp
 import br.com.shapeup.backoffice.domain.Training;
 import br.com.shapeup.backoffice.repository.TrainingRepository;
 import br.com.shapeup.backoffice.utils.ObjectUtils;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
-
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
+import lombok.RequiredArgsConstructor;
+import org.springframework.stereotype.Service;
 
 @Service
+@RequiredArgsConstructor
 public class TrainingService {
 
-    @Autowired
-    TrainingRepository trainingRepository;
-
-    @Autowired
-    TrainingMapper trainingMapper;
+    private final TrainingRepository trainingRepository;
+    private final TrainingMapper trainingMapper;
 
     public TrainingRegistredResponse saveTraining(TrainingRegisterRequest trainingRegisterRequest) {
 
@@ -36,9 +33,11 @@ public class TrainingService {
 
         return trainingRepository.findAll();
     }
-    public List<Training>findByCategory(String category){
+
+    public List<Training> findByCategory(String category) {
         return trainingRepository.findByCategory(category);
-    };
+    }
+
 
     public List<Training> findByName(String name) {
         return trainingRepository.findByName(name);
@@ -62,8 +61,8 @@ public class TrainingService {
     }
 
     public Training getTrainingById(UUID id) {
-        Optional<Training> optionalTraining = trainingRepository.findById(id);
-        return optionalTraining.orElse(null);
+        return trainingRepository.findById(id)
+                .orElseThrow(() -> new NotFoundException("Training not found"));
     }
 
     public TrainingRegistredResponse updateTraining(UpdateTrainingRequest updateTrainingRequest) {
