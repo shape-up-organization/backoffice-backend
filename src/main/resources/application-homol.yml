@@ -12,13 +12,13 @@ spring:
     activate:
       on-profile: homol
   datasource:
-    driver-class-name: org.postgresql.Driver
     url: ${POSTGRES_URL}
+    driver-class-name: org.postgresql.Driver
   jpa:
     hibernate:
       ddl-auto: none
     show-sql: false
-    database: postgresql
+    database: POSTGRESQL
     database-platform: org.hibernate.dialect.PostgreSQLDialect
     open-in-view: false
     generate-ddl: true
