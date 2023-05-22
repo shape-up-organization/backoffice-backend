@@ -63,6 +63,12 @@ public class TrainingService {
     }
 
     public void deleteTrainingById(UUID id) {
+        Training training = trainingRepository.findById(id)
+                .orElseThrow(() -> new NotFoundException("Training not found"));
+
+        List<Exercise> exercises = training.getExercises();
+
+        exerciseRepository.deleteAll(exercises);
         trainingRepository.deleteById(id);
     }
 

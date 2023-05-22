@@ -8,7 +8,6 @@ import br.com.shapeup.backoffice.domain.Training;
 import jakarta.transaction.Transactional;
 import jakarta.validation.Valid;
 import java.util.List;
-import java.util.Optional;
 import java.util.UUID;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -84,14 +83,9 @@ public class TrainingController {
 
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> deleteTraining(@PathVariable UUID id) {
-        Optional<Training> training = trainingService.findById(id);
-        if (training.isPresent()) {
             trainingService.deleteTrainingById(id);
-            return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
 
-        } else {
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
-        }
+            return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
     }
 
 }
