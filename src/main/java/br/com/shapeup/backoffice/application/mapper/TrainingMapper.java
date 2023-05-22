@@ -29,6 +29,7 @@ public class TrainingMapper {
                 training.getName(),
                 training.getCategory().name(),
                 training.getXp(),
+                training.getUnlockXp(),
                 training.getDescription(),
                 training.getDuration(),
                 training.getExercises().stream().map(exercise -> exercise.getExercise()).toList()
