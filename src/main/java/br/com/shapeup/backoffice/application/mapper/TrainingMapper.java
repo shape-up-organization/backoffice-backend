@@ -29,6 +29,7 @@ public class TrainingMapper {
                 training.getId().toString(),
                 training.getName(),
                 training.getCategory().name(),
+                training.getClassification(),
                 training.getXp(),
                 training.getUnlockXp(),
                 training.getDescription(),

@@ -14,6 +14,7 @@ public class TrainingRegistredResponse {
     private String id;
     private String name;
     private String category;
+    private String classification;
     private Long xp;
     private Long unlockXp;
     private String description;

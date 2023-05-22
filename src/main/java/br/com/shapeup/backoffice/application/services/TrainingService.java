@@ -45,17 +45,23 @@ public class TrainingService {
         return trainingMapper.trainingsToTrainingRegistredResponse(trainings);
     }
 
-    public List<Training> findByCategory(String category) {
-        return trainingRepository.findByCategory(category);
+    public List<TrainingRegistredResponse> findByCategory(String category) {
+        List<Training> trainings = trainingRepository.findByCategory(category);
+
+        return trainingMapper.trainingsToTrainingRegistredResponse(trainings);
     }
 
 
-    public List<Training> findByName(String name) {
-        return trainingRepository.findByName(name);
+    public List<TrainingRegistredResponse> findByName(String name) {
+        List<Training> trainings = trainingRepository.findByName(name);
+
+        return trainingMapper.trainingsToTrainingRegistredResponse(trainings);
     }
 
-    public List<Training> findByCategoryAndDuration(String category, int duration) {
-        return trainingRepository.findByCategoryAndDuration(category, duration);
+    public List<TrainingRegistredResponse> findByCategoryAndDuration(String category, int duration) {
+        List<Training> trainings = trainingRepository.findByCategoryAndDuration(category, duration);
+
+        return trainingMapper.trainingsToTrainingRegistredResponse(trainings);
     }
 
     public Optional<Training> findById(UUID id) {
@@ -72,9 +78,10 @@ public class TrainingService {
         trainingRepository.deleteById(id);
     }
 
-    public List<Training> findByXpGreaterThan(Long xp) {
+    public List<TrainingRegistredResponse> findByXpGreaterThan(Long xp) {
         List<Training> trainings = trainingRepository.findByXpGreaterThan(xp);
-        return trainings;
+
+        return trainingMapper.trainingsToTrainingRegistredResponse(trainings);
     }
 
     public Training getTrainingById(UUID id) {

@@ -4,7 +4,6 @@ import br.com.shapeup.backoffice.application.services.TrainingService;
 import br.com.shapeup.backoffice.application.web.requests.TrainingRegisterRequest;
 import br.com.shapeup.backoffice.application.web.requests.UpdateTrainingRequest;
 import br.com.shapeup.backoffice.application.web.responses.TrainingRegistredResponse;
-import br.com.shapeup.backoffice.domain.Training;
 import jakarta.transaction.Transactional;
 import jakarta.validation.Valid;
 import java.util.List;
@@ -45,31 +44,31 @@ public class TrainingController {
     }
 
     @GetMapping("/{name}")
-    public ResponseEntity<List<Training>> findTrainingsByName(@PathVariable String name) {
-        List<Training> trainings = trainingService.findByName(name);
+    public ResponseEntity<List<TrainingRegistredResponse>> findTrainingsByName(@PathVariable String name) {
+        var trainings = trainingService.findByName(name);
         return ResponseEntity.status(HttpStatus.OK).body(trainings);
     }
 
     @GetMapping("/categories/{category}")
-    public ResponseEntity<List<Training>> findTrainingsByCategory(@PathVariable String category){
-        List<Training> trainingsByCategory = trainingService.findByCategory(category);
-        if (!trainingsByCategory.isEmpty()) {
-            return ResponseEntity.status(HttpStatus.OK).body(trainingsByCategory);
+    public ResponseEntity<List<TrainingRegistredResponse>> findTrainingsByCategory(@PathVariable String category){
+        var trainings = trainingService.findByCategory(category);
+        if (!trainings.isEmpty()) {
+            return ResponseEntity.status(HttpStatus.OK).body(trainings);
         }
             return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
     }
 
 
     @GetMapping("/category/{category}/{duration}")
-    public ResponseEntity<List<Training>> findTrainingsByCategoryAndDuration(@PathVariable String category, @PathVariable int duration) {
-        List<Training> trainings = trainingService.findByCategoryAndDuration(category, duration);
+    public ResponseEntity<List<TrainingRegistredResponse>> findTrainingsByCategoryAndDuration(@PathVariable String category, @PathVariable int duration) {
+        var trainings = trainingService.findByCategoryAndDuration(category, duration);
         return ResponseEntity.status(HttpStatus.OK).body(trainings);
     }
 
 
     @GetMapping("/xp/{xp}")
-    public ResponseEntity<List<Training>> findTrainingsByXpGreaterThan(@PathVariable Long xp) {
-        List<Training> trainings = trainingService.findByXpGreaterThan(xp);
+    public ResponseEntity<List<TrainingRegistredResponse>> findTrainingsByXpGreaterThan(@PathVariable Long xp) {
+        var trainings = trainingService.findByXpGreaterThan(xp);
         return ResponseEntity.status(HttpStatus.OK).body(trainings);
     }
 
