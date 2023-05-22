@@ -16,6 +16,7 @@ public class TrainingMapper {
                 .name(trainingRegisterRequest.getName())
                 .duration(trainingRegisterRequest.getDuration())
                 .xp(trainingRegisterRequest.getXp())
+                .unlockXp(trainingRegisterRequest.getUnlockXp())
                 .category(CategoryEnum.toEnum(trainingRegisterRequest.getCategory()))
                 .description(trainingRegisterRequest.getDescription())
                 .classification(trainingRegisterRequest.getClassification())
