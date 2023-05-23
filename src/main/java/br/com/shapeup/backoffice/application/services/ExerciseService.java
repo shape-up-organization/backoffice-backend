@@ -9,7 +9,6 @@ import br.com.shapeup.backoffice.domain.Exercise;
 import br.com.shapeup.backoffice.repository.ExerciseRepository;
 import br.com.shapeup.backoffice.repository.TrainingRepository;
 import br.com.shapeup.backoffice.utils.ObjectUtils;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 import lombok.RequiredArgsConstructor;
@@ -24,8 +23,9 @@ public class ExerciseService {
     private final ExerciseMapper exerciseMapper;
 
     public void createExercise(ExerciseRegisterRequest exerciseRegisterRequest){
-        var training = trainingRepository.findById(UUID.fromString(exerciseRegisterRequest.trainingId()));
-        var exercise = exerciseMapper.toModel(exerciseRegisterRequest, training.get());
+        var training = trainingRepository.findById(UUID.fromString(exerciseRegisterRequest.trainingId()))
+                .orElseThrow(() -> new NotFoundException("Training not found"));
+        var exercise = exerciseMapper.toModel(exerciseRegisterRequest, training);
 
         exerciseRepository.save(exercise);
     }
