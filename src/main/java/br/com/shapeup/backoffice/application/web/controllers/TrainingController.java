@@ -24,7 +24,7 @@ import org.springframework.web.bind.annotation.RestController;
 @RequiredArgsConstructor
 @CrossOrigin(origins = "*")
 @RestController
-@RequestMapping("/trainings")
+@RequestMapping("/backoffice/trainings")
 public class TrainingController {
 
     private final TrainingService trainingService;

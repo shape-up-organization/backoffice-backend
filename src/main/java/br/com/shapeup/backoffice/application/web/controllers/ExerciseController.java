@@ -19,7 +19,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 @RequiredArgsConstructor
 @RestController
-@RequestMapping("/exercises")
+@RequestMapping("/backoffice/exercises")
 @CrossOrigin(origins = "*")
 public class ExerciseController {
 
