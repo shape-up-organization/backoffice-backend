@@ -30,7 +30,7 @@ public class TrainingService {
         List<Exercise> exercises = new ArrayList<>();
 
         Training training = trainingMapper.traningRegisterToTraining(trainingRegisterRequest);
-        addExercisesToTrainingRegistration(trainingRegisterRequest, training, exercises);
+        addExercisesToTraining(trainingRegisterRequest.getExercises(), training, exercises);
 
         training.setExercises(exercises);
         trainingRepository.save(training);
@@ -91,19 +91,29 @@ public class TrainingService {
 
     public TrainingRegistredResponse updateTraining(UpdateTrainingRequest updateTrainingRequest) {
 
+        List<Exercise> exercises = new ArrayList<>();
+
         Training training = trainingRepository.findById(UUID.fromString(updateTrainingRequest.id()))
                 .orElseThrow(() -> new NotFoundException("Training not found"));
 
+        if(!updateTrainingRequest.exercises().isEmpty()) {
+            exerciseRepository.deleteAll(training.getExercises());
+            training.getExercises().clear();
+            addExercisesToTraining(updateTrainingRequest.exercises(), training, exercises);
+        }
+
+        training.setId(UUID.fromString(updateTrainingRequest.id()));
         ObjectUtils.copyNonNullProperties(updateTrainingRequest, training);
+        exerciseRepository.saveAll(exercises);
+        training.setExercises(exercises);
         trainingRepository.save(training);
 
         return trainingMapper.trainingToTrainingRegistredResponse(training);
     }
 
-    private static void addExercisesToTrainingRegistration(TrainingRegisterRequest trainingRegisterRequest, Training training, List<Exercise> exercises) {
-        for(String exercise : trainingRegisterRequest.getExercises()) {
+    private static void addExercisesToTraining(List<String> exercisesString, Training training, List<Exercise> exercises) {
+        for(String exercise : exercisesString) {
             var exerciseModel = Exercise.builder()
-                    .id(UUID.randomUUID())
                     .exercise(exercise)
                     .training(training)
                     .build();
