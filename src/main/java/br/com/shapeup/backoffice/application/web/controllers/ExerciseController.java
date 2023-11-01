@@ -5,6 +5,7 @@ import br.com.shapeup.backoffice.application.web.requests.ExerciseRegisterReques
 import br.com.shapeup.backoffice.application.web.requests.UpdateExerciseRequest;
 import br.com.shapeup.backoffice.application.web.responses.ExerciseRegistredResponse;
 import br.com.shapeup.backoffice.utils.Mapper;
+import jakarta.servlet.http.HttpServletRequest;
 import jakarta.validation.Valid;
 import java.util.ArrayList;
 import java.util.List;
@@ -51,22 +52,14 @@ public class ExerciseController {
    }
 
    @GetMapping("dispatch-log")
-   public void dispatchLog() {
+   public void dispatchLog(HttpServletRequest request) {
       log.info("Logback is working with info");
       log.error("Logback is working with error");
       log.warn("Logback is working with warn");
       log.debug("Logback is working with debug");
       log.trace("Logback is working with trace");
 
-      try {
-          ArrayList<Integer> list = new ArrayList<>();
-          list.add(1);
-          list.add(2);
-          list.add(3);
-
-          System.out.println(list.get(5));
-      } catch (Exception e) {
-          log.error("Error: {}", Mapper.mapToJsonString(e.fillInStackTrace()));
-      }
+      var url = request.getRequestURL().toString();
+      log.info("Request URL: {}", url);
    }
 }
