@@ -59,7 +59,7 @@ public class ExerciseController {
       log.debug("Logback is working with debug");
       log.trace("Logback is working with trace");
 
-      var url = request.getRequestURL().toString();
+      var url = request.getRemoteAddr();
       log.info("Request URL: {}", url);
    }
 }
