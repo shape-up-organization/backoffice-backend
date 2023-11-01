@@ -1,5 +1,5 @@
 server:
-  port: 8080
+  port: 7003
 
 spring:
   main:
@@ -28,5 +28,6 @@ spring:
 springdoc:
   api-docs:
     path: /api-docs
+    enabled: false
   swagger-ui:
     path: /backoffice/swagger-ui

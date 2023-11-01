@@ -1,0 +1,70 @@
+version: "3.7"
+
+services:
+  postgresdb:
+    container_name: postgresbackoffice-db
+    image: postgres
+    environment:
+      POSTGRES_USER: "dev"
+      POSTGRES_PASSWORD: "dev"
+      POSTGRES_DB: "shapeup-backoffice"
+      SPRING_PROFILES_ACTIVE=prod: "local"
+      TZ: "America/Sao_Paulo"
+    ports:
+      - "5434:5432"
+    networks:
+      - pg-db-network
+    restart: always
+
+  backofficeapp:
+    build:
+      dockerfile: ./Dockerfile
+      context: .
+    container_name: backoffice-app
+    environment:
+      - LOGGING_FILE_NAME=/logs/backoffice-service.log
+      - SPRING_PROFILES_ACTIVE=local
+      - POSTGRES_USER=dev
+      - POSTGRES_PASSWORD=dev
+      - POSTGRES_DB=shapeupdev
+      - POSTGRES_URL=jdbc:postgresql://postgresdb:5432/shapeup-backoffice
+    depends_on:
+      - postgresdb
+    ports:
+      - "7003:7003"
+    volumes:
+      - log_volume:/logs
+    networks:
+      - pg-db-network
+
+  splunk:
+    image: splunk/splunk:latest
+    hostname: splunk
+    environment:
+      SPLUNK_START_ARGS: --accept-license
+      SPLUNK_USER: splunk
+      SPLUNK_ENABLE_LISTEN: 9997
+      SPLUNK_PASSWORD: splunk1234
+    ports:
+      - "8000:8000"
+
+  splunkforwarder:
+    image: splunk/universalforwarder:8.0
+    hostname: splunkforwarder
+    environment:
+      SPLUNK_START_ARGS: --accept-license --answer-yes
+      SPLUNK_STANDALONE_URL: splunk:9997
+      SPLUNK_USER: splunk
+      SPLUNK_PASSWORD: splunk1234
+      SPLUNK_ADD: monitor /logs
+    restart: always
+    depends_on:
+      - splunk
+    volumes:
+      - log_volume:/logs
+
+
+networks:
+  pg-db-network: { }
+volumes:
+  log_volume:
